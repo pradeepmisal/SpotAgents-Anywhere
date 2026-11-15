@@ -1,10 +1,9 @@
 import { useEffect, useRef } from "react";
-import type { NearbyAgent } from "../types";
 import { isNeuralPlaying, setNeuralSink } from "../chat/voice";
 import { resumeNeuralAudio, type NeuralUtterance } from "../voice/neuralVoice";
 
 export interface AvatarStageProps {
-  agent: NearbyAgent;
+  agent: { name: string };
   speaking: boolean;
   mood?: "neutral" | "happy" | "thinking";
   /** Increment to trigger a wave. */

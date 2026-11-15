@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Camera, Keyboard, Mic, Volume2, VolumeX } from "lucide-react";
-import type { NearbyAgent, PaymentRequired } from "../types";
+import type { PaymentRequired } from "../anywhere/types";
+import type { ChatAgent } from "./agent";
 import { useChat, useSpokenSentence } from "./useChat";
 import { canListen, canSpeak, listen, stopSpeaking } from "./voice";
 import type { Listener } from "./voice";
@@ -8,9 +9,9 @@ import { MOCK_LABEL } from "./mockStream";
 import "./chat.css";
 
 interface Props {
-  agent: NearbyAgent;
+  agent: ChatAgent;
   mock: boolean;
-  /** near-pay plugs in here; called on HTTP 402. */
+  /** called on HTTP 402. */
   onPaymentRequired?: (p: PaymentRequired) => void;
   /** Parent increments this after the paywall confirms an unlock; the kept message is re-sent. */
   unlockedTick?: number;
