@@ -55,3 +55,5 @@ Web (`apps/web/.env.local`): `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
 
 ## Verified facts
 - 2026-11-15: SERV `gpt-5.4-nano` answered in 2.8 s; requires `max_completion_tokens`.
+- 2026-11-15: `gpt-5.4-mini` works with `response_format: json_object` and `max_completion_tokens` on SERV.
+- 2026-11-15: Reppo: the documented `/agents/eval-requests/submit` path (docs.reppo.ai) returns 404 on eval.reppo.xyz. The live reference `https://eval.reppo.xyz/agents.md` says: `POST https://eval.reppo.xyz/api/v1/agents/evals` body `{"taskType":"claim|response|action","input":"<string, max 50KB>"}` -> 201 `{id, status:"QUEUED"}`; poll `GET .../agents/evals/{id}` until `status` is `COMPLETED` or `FAILED` (QUEUED, PROCESSING in between). Result: `result.score` 0-100, `result.decision` accept|reject (no "revise"), `result.route` ship|review|block, `result.reason` (critique), `result.rubric_scores`. Evaluations take roughly 30-90 s per docs; text eval costs 440 credits. Implemented in `_shared/reppo.ts` with taskType `response`.
