@@ -1,0 +1,22 @@
+[package]
+name = "spot_pay"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/pradeepmisal/Spot-Agents"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+near-sdk = "5.30.2"
+
+[dev-dependencies]
+near-sdk = { version = "5.30.2", features = ["unit-testing"] }
+
+[profile.release]
+codegen-units = 1
+opt-level = "z"
+lto = true
+debug = false
+panic = "abort"
+overflow-checks = true

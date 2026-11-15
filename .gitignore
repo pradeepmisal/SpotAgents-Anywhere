@@ -1,0 +1,20 @@
+node_modules/
+dist/
+build/
+.vercel/
+.env
+.env.*
+!.env.example
+*.log
+supabase/.temp/
+supabase/.branches/
+contract/target/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Home coordinates: never commit
+supabase/seed.local.sql
+*.local.sql
+

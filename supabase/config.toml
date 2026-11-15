@@ -1,0 +1,31 @@
+# Minimal config for `supabase link` / `supabase db push` / `supabase functions deploy`.
+project_id = "spotagents"
+
+[auth]
+enable_anonymous_sign_ins = true
+
+# The gateway's JWT check doesn't understand the new publishable/secret keys;
+# these functions verify the caller's session themselves (caller() in _shared/common.ts).
+[functions.chat]
+verify_jwt = false
+
+[functions.near-pay]
+verify_jwt = false
+
+[functions.ax-compile]
+verify_jwt = false
+
+[functions.ax-agents]
+verify_jwt = false
+
+[functions.ax-chat]
+verify_jwt = false
+
+[functions.ax-review]
+verify_jwt = false
+
+[functions.ax-pay]
+verify_jwt = false
+
+[functions.ax-agent-pay]
+verify_jwt = false
