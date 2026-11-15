@@ -57,13 +57,13 @@ export function mockCompile(req: CompileRequest): AgentDetail {
 }
 
 const reviewPolls = new Map<string, number>();
-/** Mock Reppo review: the second poll for a new agent lists it with a sample score. */
+/** Mock Reppo review: the first poll for a new agent lists it with a sample score. */
 export function mockReview(id: string): ReviewStatus {
   const a = agents.find((x) => x.id === id);
   if (!a) throw new Error("Agent not found");
   const n = (reviewPolls.get(id) ?? 99) + 1;
   reviewPolls.set(id, n);
-  if (a.status === "in_review" && n >= 2) {
+  if (a.status === "in_review" && n >= 1) {
     a.status = "listed"; a.quality_score = 82; a.quality_decision = "accept";
     a.review_history = [{ version: 1, score: 82, decision: "accept", critique: null, at: now() }];
   }

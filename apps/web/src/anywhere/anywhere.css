@@ -93,3 +93,16 @@
 .ar-msg { position: absolute; z-index: 6; left: 16px; right: 16px; top: 100px; padding: 10px 12px; border-radius: var(--r-md); background: rgba(255,255,255,.92); font-size: var(--fs-sm); }
 .ar-list { position: absolute; z-index: 8; left: 0; right: 0; bottom: 0; max-height: 42%; overflow-y: auto; padding: 12px; display: grid; gap: 8px; background: rgba(255,255,255,.96); border-radius: 20px 20px 0 0; }
 .ar-list h3 { font-size: var(--fs-sm); color: var(--muted); }
+
+/* layering: full-screen takeovers sit above the bottom nav */
+.experience { z-index: 35; }
+.mock-banner { position: absolute; top: 0; left: 0; right: 0; z-index: 100; pointer-events: none; font-size: 11px; padding: 3px 12px; }
+.has-mock .topbar { padding-top: 30px; }
+.has-mock .exp-bar { top: 34px; }
+.has-mock .ap-hero { padding-top: 38px; }
+.has-mock .pw-x { top: 34px; }
+.has-mock .pagehead { padding-top: 34px; }
+.has-mock .overlay .pagehead { padding-top: 38px; }
+.map-chips { position: absolute; right: 8px; top: 8px; z-index: 500; display: flex; gap: 6px; }
+.map-chips .chip { min-height: 30px; padding: 0 12px; font-size: var(--fs-xs); box-shadow: var(--sh-1); }
+.ap-hero .icon-btn { color: var(--ink); justify-self: start; }

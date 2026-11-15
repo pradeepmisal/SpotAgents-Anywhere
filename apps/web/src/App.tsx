@@ -32,7 +32,7 @@ export default function App() {
   const close = () => { setOverlay(null); setReload((n) => n + 1); };
 
   return (
-    <div className="app">
+    <div className={`app${MOCK ? " has-mock" : ""}`}>
       {MOCK && <div className="mock-banner">Mock mode (?mock=1): sample data, no real AI or payments</div>}
       <main className="screen">
         {(tab === "explore" || tab === "agents") && (

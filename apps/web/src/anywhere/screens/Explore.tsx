@@ -60,6 +60,7 @@ export function LocationBar({ loc }: { loc: Loc }) {
 
 export default function Explore({ loc, agents, loading, error, onRetry, onOpen, variant = "explore" }: Props) {
   const [q, setQ] = useState("");
+  const [world, setWorld] = useState(true);
   const list = useMemo(() => {
     const t = q.trim().toLowerCase();
     return agents.filter((a) => !t || `${a.name} ${a.title} ${a.place_name} ${a.city}`.toLowerCase().includes(t));
@@ -77,7 +78,11 @@ export default function Explore({ loc, agents, loading, error, onRetry, onOpen, 
       </label>
       {variant === "explore" && (
         <div className="map-wrap">
-          <AxMap agents={list} center={loc.place} zoom={loc.place.source === "device" ? 14 : 11} onOpen={onOpen} label="World map of agents" />
+          <div className="map-chips">
+            <button className={`chip${world ? " on" : ""}`} onClick={() => setWorld(true)} aria-pressed={world}>World</button>
+            <button className={`chip${world ? "" : " on"}`} onClick={() => setWorld(false)} aria-pressed={!world}>Nearby</button>
+          </div>
+          <AxMap agents={list} center={loc.place} zoom={world ? 2 : loc.place.source === "device" ? 14 : 12} onOpen={onOpen} label="World map of agents" />
           <span className="badge sim map-note"><MapPin size={12} /> {loc.place.source === "device" ? "Your location" : `${loc.place.label} (city picker)`}</span>
         </div>
       )}
