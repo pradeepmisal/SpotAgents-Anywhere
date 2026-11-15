@@ -1,8 +1,8 @@
-import { Compass, Users, Wallet, User, ScanFace } from "lucide-react";
+import { Compass, Users, Wallet, Wand2, ScanFace } from "lucide-react";
 
-export type Tab = "explore" | "agents" | "wallet" | "profile";
+export type Tab = "explore" | "agents" | "studio" | "wallet";
 
-export default function BottomNav({ tab, onTab, onHere }: { tab: Tab; onTab: (t: Tab) => void; onHere: () => void }) {
+export default function BottomNav({ tab, onTab, onAR }: { tab: Tab; onTab: (t: Tab) => void; onAR: () => void }) {
   const item = (t: Tab, label: string, Icon: typeof Compass) => (
     <button className={`nav-item${tab === t ? " on" : ""}`} onClick={() => onTab(t)} aria-current={tab === t ? "page" : undefined}>
       <Icon size={22} strokeWidth={tab === t ? 2.4 : 1.8} />
@@ -13,11 +13,11 @@ export default function BottomNav({ tab, onTab, onHere }: { tab: Tab; onTab: (t:
     <nav className="nav" aria-label="Main">
       {item("explore", "Explore", Compass)}
       {item("agents", "Agents", Users)}
-      <button className="nav-centre" onClick={onHere} aria-label="I'm here: live camera" title="I'm here">
+      <button className="nav-centre" onClick={onAR} aria-label="Find agents with the camera (AR)" title="AR finder">
         <ScanFace size={28} />
       </button>
+      {item("studio", "Studio", Wand2)}
       {item("wallet", "Wallet", Wallet)}
-      {item("profile", "Profile", User)}
     </nav>
   );
 }

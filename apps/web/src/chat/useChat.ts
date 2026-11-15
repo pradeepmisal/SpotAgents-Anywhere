@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
-import type { ChatEvent, ChatMessage, ChatRequest, NearbyAgent, PaymentRequired } from "../types";
+import type { ChatEvent, ChatMessage, ChatRequest, PaymentRequired } from "../anywhere/types";
+import type { ChatAgent } from "./agent";
 import { accessToken } from "../supabase";
 import { mockStream } from "./mockStream";
 import { getSpokenSentence, isSpeaking, sentenceSpeaker, stopSpeaking, subscribeSpeaking } from "./voice";
@@ -17,7 +18,7 @@ export function useSpokenSentence(): string {
 export type ChatStatus = "idle" | "streaming" | "locked" | "error";
 
 interface Options {
-  agent: NearbyAgent;
+  agent: ChatAgent;
   mock: boolean;
   /** Supplied by near-pay: called on HTTP 402. */
   onPaymentRequired?: (p: PaymentRequired) => void;
@@ -68,7 +69,7 @@ export function useChat({ agent, mock, onPaymentRequired, speakReplies }: Option
   const run = useCallback(async (history: ChatMessage[]) => {
     busy.current = true;
     setStatus("streaming"); setError(null);
-    const speaker = sentenceSpeaker(agent.voice);
+    const speaker = sentenceSpeaker(null);
     let reply = "";
     let outcome: ChatStatus = "idle";
     try {
@@ -80,9 +81,8 @@ export function useChat({ agent, mock, onPaymentRequired, speakReplies }: Option
         const req: ChatRequest = {
           agent_id: agent.id,
           messages: history,
-          client: { now: new Date().toISOString(), timezone: Intl.DateTimeFormat().resolvedOptions().timeZone },
         };
-        const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`, {
+        const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ax-chat`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -122,7 +122,7 @@ export function useChat({ agent, mock, onPaymentRequired, speakReplies }: Option
       const err = e as Error & { status?: number; body?: PaymentRequired };
       if (err.status === 402) {
         outcome = "locked";
-        const p: PaymentRequired = err.body ?? { error: "payment_required", agent_id: agent.id, price_yocto: agent.price_yocto ?? "0" };
+        const p: PaymentRequired = err.body ?? { error: "payment_required", agent_id: agent.id, price_units: agent.price_units, price_usd: agent.price_usd };
         payRef.current?.(p);
       } else {
         setError(err.message || "Chat failed");

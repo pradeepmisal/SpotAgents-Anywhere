@@ -1,5 +1,4 @@
 import { createClient } from "@supabase/supabase-js";
-import { setAuthTokenGetter } from "./near";
 
 const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const key = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
@@ -31,6 +30,3 @@ export async function accessToken(): Promise<string | undefined> {
   const { data } = await supabase.auth.getSession();
   return data.session?.access_token;
 }
-
-// near-pay calls its functions with the same anon session JWT.
-setAuthTokenGetter(() => accessToken().catch(() => undefined));

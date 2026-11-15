@@ -1,14 +1,17 @@
-import type { NearbyAgent } from "../types";
+import type { ChatAgent } from "./agent";
 
 export const MOCK_LABEL = "Mock reply (?mock=1), not from the AI";
 
-/** Mock SSE-equivalent used only with ?mock=1. Yields word chunks after a premium event. */
-export async function* mockStream(agent: NearbyAgent, userText: string, turn: number): AsyncGenerator<string> {
-  if (agent.price_yocto !== null && turn > 1) {
-    // mirrors the real function: a paid, locked agent answers only the first turn
+/** Set of agent ids unlocked in mock mode (by the mock tour-agent payment). */
+export const mockUnlocked = new Set<string>();
+
+/** Mock SSE-equivalent used only with ?mock=1: first turn free, later turns need an unlock (like ax-chat). */
+export async function* mockStream(agent: ChatAgent, userText: string, turn: number): AsyncGenerator<string> {
+  const premium = mockUnlocked.has(agent.id);
+  if (turn > 1 && !premium) {
     throw Object.assign(new Error("payment_required"), { status: 402 });
   }
-  yield JSON.stringify({ premium: false });
+  yield JSON.stringify({ premium });
   const text = `[mock] ${agent.name} here. You said: "${userText}". This is a sample reply. It has two sentences.`;
   for (const w of text.split(/(?<=\s)/)) {
     await new Promise((r) => setTimeout(r, 40));
