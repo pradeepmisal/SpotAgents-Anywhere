@@ -1,6 +1,8 @@
 # Baseline and third-party code disclosure
 
-The NEAR HACKATHON judges only work done after 2026-10-19, and code from before that must be disclosed. SpotAgents was started on 2026-11-14. Everything below is reused, third-party code and is **not** our own work.
+**SERV Hackathon 02:** SpotAgents Anywhere was built on 2026-11-15 on top of our own earlier project SpotAgents (built 2026-11-14 for NEAR HACKATHON 2026; repo https://github.com/pradeepmisal/Spot-Agents). See "Built during the hackathon" in the README for what is new. The NEAR contract, NEAR payment functions and NEAR landing page are not part of this repository.
+
+The sections below list third-party code and assets reused in both projects. Rows that mention NEAR-only files describe the earlier project.
 
 ## Upstream: Air Agents / Spatial-Agents (MIT)
 - Repo: https://github.com/ahmedfahim21/Spatial-Agents (snapshot commit `00d2fce0bd1b9fd677844f69de099989e8331c06`, 2026-11-07). Licence: MIT, © 2026 AbhishekSatpathy4848.
