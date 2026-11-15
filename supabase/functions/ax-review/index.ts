@@ -34,7 +34,7 @@ Deno.serve(async (req) => {
 
   const { data: a, error } = await db.from("ax_agents").select("*").eq("id", body.agent_id).maybeSingle();
   if (error) return json({ error: /uuid/i.test(error.message) ? "Agent not found" : error.message }, /uuid/i.test(error.message) ? 404 : 500);
-  if (!a || (a.status !== "listed" && a.status !== "listed_unreviewed" && a.owner_id !== uid)) return json({ error: "Agent not found" }, 404);
+  if (!a || (a.status !== "listed" && a.status !== "listed_unreviewed" && !a.sample && a.owner_id !== uid)) return json({ error: "Agent not found" }, 404);
   if (a.status !== "in_review") return json(view(a));
 
   const update = async (patch: Record<string, unknown>) => {
